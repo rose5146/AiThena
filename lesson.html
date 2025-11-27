@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AiThena — Lesson 1</title>
+  <style>
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:0;background:#071029;color:#e6eef8;padding:28px;min-height:100vh}
+    .wrap{max-width:980px;margin:0 auto;display:grid;grid-template-columns:1fr 320px;gap:20px}
+    .card{background:rgba(255,255,255,0.03);padding:18px;border-radius:12px}
+    h1{margin:0 0 8px}
+    .editor{width:100%;height:220px;background:#0b1220;border-radius:8px;padding:12px;color:#e6eef8;font-family:monospace;font-size:14px;border:1px solid rgba(255,255,255,0.03);resize:vertical}
+    .row{display:flex;gap:8px;margin-top:12px}
+    .btn{background:#7c3aed;color:white;padding:8px 12px;border-radius:8px;text-decoration:none;border:none;cursor:pointer}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+    .hint{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;margin-top:12px;color:#cfe7ff}
+    .xp{margin-top:12px;font-size:14px;color:#bcd7ff}
+    .success{margin-top:12px;padding:10px;border-radius:8px;background:linear-gradient(90deg,#10b981, #06b6d4);color:white}
+    @media(max-width:900px){.wrap{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Lesson 1 — Hello, Functions</h1>
+      <p class="lead" style="color:#9fb0c8">Write a small JavaScript function that returns the string <strong>"Hello, AiThena"</strong>. Type your code in the editor below and press <strong>Run</strong>.</p>
+
+      <textarea id="editor" class="editor" placeholder="// Example:
+function greet(){
+  return 'Hello, AiThena';
+}"></textarea>
+
+      <div class="row">
+        <button id="run" class="btn">Run ▶</button>
+        <button id="hintBtn" class="btn ghost">AiThena: Hint</button>
+        <div id="status" style="align-self:center;color:#9fb0c8;margin-left:auto">Attempts: <span id="attempts">0</span></div>
+      </div>
+
+      <div id="output" class="hint" style="display:none"></div>
+      <div id="success" class="success" style="display:none">Nice work — you earned <strong>120 XP</strong>! ✨</div>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700">AiThena (Demo)</div>
+      <div class="xp">XP: <span id="xp">0</span></div>
+      <div style="margin-top:12px" id="hintArea"></div>
+      <div style="margin-top:16px">
+        <a href="index.html" class="btn ghost" style="text-decoration:none">Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // small local "state" stored in localStorage so XP persists in this browser
+  const xpEl = document.getElementById('xp');
+  const attemptsEl = document.getElementById('attempts');
+  const editor = document.getElementById('editor');
+  const output = document.getElementById('output');
+  const success = document.getElementById('success');
+  const hintBtn = document.getElementById('hintBtn');
+  const hintArea = document.getElementById('hintArea');
+  const runBtn = document.getElementById('run');
+
+  function getXP(){ return Number(localStorage.getItem('ai_xp') || 0) }
+  function setXP(v){ localStorage.setItem('ai_xp', String(v)); xpEl.textContent = v }
+
+  // init
+  setXP(getXP());
+  let attempts = 0;
+  attemptsEl.textContent = attempts;
+
+  // VERY simple validator (no server) — checks output of evaluating user's code safely
+  function runUserCode(userCode){
+    // We will create a function and call it in a sandboxed way using new Function.
+    // This is small demo-only code. For real runners use Judge0 or server sandbox.
+    try{
+      // Wrap code so we can call greet()
+      const wrapped = userCode + "\n; return typeof greet === 'function' ? greet() : undefined;";
+      const fn = new Function(wrapped);
+      const result = fn();
+      return {ok:true, result};
+    } catch(e){
+      return {ok:false, error: e.message};
+    }
+  }
+
+  runBtn.addEventListener('click', () => {
+    const code = editor.value.trim();
+    attempts++;
+    attemptsEl.textContent = attempts;
+    output.style.display = 'block';
+    success.style.display = 'none';
+    hintArea.innerHTML = '';
+
+    if(!code){
+      output.textContent = 'Please type something in the editor.';
+      return;
+    }
+
+    const res = runUserCode(code);
+    if(!res.ok){
+      output.textContent = 'Error running code: ' + res.error;
+      return;
+    }
+
+    // check the returned result
+    if(res.result === 'Hello, AiThena'){
+      output.textContent = 'Result: ' + res.result;
+      success.style.display = 'block';
+      // award XP once per success per browser session (for demo)
+      const current = getXP();
+      if(!localStorage.getItem('ai_lesson1_done')){
+        setXP(current + 120);
+        localStorage.setItem('ai_lesson1_done', '1');
+      }
+    } else {
+      output.textContent = 'Result was: ' + String(res.result) + ' — expected "Hello, AiThena".';
+    }
+  });
+
+  hintBtn.addEventListener('click', () => {
+    // Simple, canned hints for the demo
+    hintArea.innerHTML = '<div class="hint">Hint: Create a function named <code>greet</code> that <em>returns</em> the text <strong>"Hello, AiThena"</strong>. Example: <code>function greet(){ return "Hello, AiThena"; }</code></div>';
+  });
+</script>
+</body>
+</html>
