@@ -1,45 +1,101 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>AiThena — Demo</title>
-    <style>
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: #0f172a; 
-        color: #f8fafc;
-      }
-      .card {
-        background: rgba(255, 255, 255, 0.06);
-        padding: 20px 30px;
-        border-radius: 12px;
-        text-align: center;
-        width: 350px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-      }
-      h1 { margin-bottom: 10px; }
-      p { margin-bottom: 16px; }
-      .btn {
-        background: #7c3aed;
-        color: white;
-        padding: 10px 14px;
-        border-radius: 8px;
-        text-decoration: none;
-        display: inline-block;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="card">
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AiThena — Interactive AI Tutor (Demo)</title>
+  <style>
+    :root{
+      --bg:#071029;
+      --card: rgba(255,255,255,0.04);
+      --muted:#9fb0c8;
+      --accent:#7c3aed;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1000px 600px at 10% 10%, rgba(124,58,237,0.06), transparent), var(--bg);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+    }
+    .wrap{max-width:980px;width:100%;display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:center}
+    .left{background:linear-gradient(180deg,var(--card),var(--glass));padding:28px;border-radius:var(--radius);box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+    h1{margin:0 0 8px 0;font-size:28px}
+    p.lead{margin:0 0 18px 0;color:var(--muted);line-height:1.45}
+    .features{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    .feature{display:flex;gap:12px;align-items:flex-start}
+    .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:6px;flex:0 0 10px}
+    .cta-row{margin-top:18px;display:flex;gap:12px;align-items:center}
+    .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:600}
+    .right{display:flex;flex-direction:column;gap:16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px;border-radius:12px;box-shadow:0 8px 20px rgba(2,6,23,0.5); border:1px solid rgba(255,255,255,0.02)}
+    .profile{display:flex;gap:12px;align-items:center}
+    .orb{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#5b21b6);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
+    .stat{font-size:13px;color:var(--muted)}
+    .progress{height:10px;background:rgba(255,255,255,0.04);border-radius:999px;margin-top:8px;overflow:hidden}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#5b21b6);width:36%}
+    footer{grid-column:1 / -1;margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
+    @media (max-width:900px){.wrap{grid-template-columns:1fr;}.right{order:-1}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="left card">
       <h1>AiThena</h1>
-      <p>Your AI-powered learning companion. Demo coming soon.</p>
-      <a class="btn" href="#">Learn More</a>
+      <p class="lead">An interactive AI tutor — micro-lessons, instant hints, and a playful XP system. This is a portfolio demo showing the first landing and core idea. More features coming: in-browser exercises, AI hints, and gamified progress.</p>
+
+      <div class="features" aria-hidden="true">
+        <div class="feature"><span class="dot"></span><div><strong>Micro-lessons</strong><div class="stat">Short focused lessons you can finish quickly.</div></div></div>
+        <div class="feature"><span class="dot"></span><div><strong>AI hints</strong><div class="stat">Ask AiThena for contextual help while you learn.</div></div></div>
+        <div class="feature"><span class="dot"></span><div><strong>Instant feedback</strong><div class="stat">Run small exercises and get immediate grading.</div></div></div>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn" href="https://github.com/rose5146/AiThena" target="_blank" rel="noreferrer">View on GitHub</a>
+        <a class="btn ghost" href="https://rose5146.github.io/AiThena/" target="_blank" rel="noreferrer">Open demo</a>
+      </div>
     </div>
-  </body>
+
+    <div class="right">
+      <div class="card">
+        <div class="profile">
+          <div class="orb">A</div>
+          <div>
+            <div style="font-weight:700">AiThena (Demo)</div>
+            <div class="stat">Portfolio project — starting now</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <div class="stat">XP progress</div>
+          <div class="progress" aria-hidden="true"><i></i></div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px">
+            <div class="stat">Level 1</div>
+            <div class="stat">360 XP</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="text-align:center">
+        <div style="font-weight:700">Next step</div>
+        <div class="stat" style="margin-top:8px">Add one interactive lesson with an editor → show run & hint.</div>
+        <div style="margin-top:12px">
+          <a class="btn" href="#" onclick="alert('We will add lessons next!')">Start lesson</a>
+        </div>
+      </div>
+    </div>
+
+    <footer>Built by Rose • Learn by doing • Live demo on GitHub Pages</footer>
+  </div>
+</body>
 </html>
