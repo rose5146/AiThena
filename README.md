@@ -17,3 +17,4 @@ This project is just starting, and I'm learning step-by-step how to build and de
 - GitHub Pages  
 
 More updates coming soon!
+Test: my first Git change in VS Code
